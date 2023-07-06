@@ -14,7 +14,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::where('user_id', auth()->id())->with('tasks')->get();
+        $projects = Project::where('user_id', auth()->id())->with('tasks')->latest()->get();
         return ProjectResource::collection($projects);
     }
 

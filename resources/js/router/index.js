@@ -31,10 +31,6 @@ const router = createRouter({
             path: '/user/projects/:projectId/tasks/:taskId/edit', component: () => import('../views/tasks/Edit.vue'),
             name: 'tasks.edit'
         },
-        {
-            path: '/user/statistic', component: () => import('../views/user/Statistic.vue'),
-            name: 'user.statistic'
-        },
     ]
 })
 

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Project;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title'  => $this->faker->sentence,
+            'description' =>  $this->faker->text(500),
+            'project_id' => Project::get()->random()->id,
+            'begin_time' => Carbon::now(),
+            'stop_time' => Carbon::now()->addMinutes(rand(5,3000)),
         ];
     }
 }

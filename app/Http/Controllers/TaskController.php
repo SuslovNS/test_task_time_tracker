@@ -8,6 +8,7 @@ use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Models\Task;
 use Carbon\Carbon;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +16,7 @@ class TaskController extends Controller
 {
     public function index($id)
     {
-        $tasks = Task::where('project_id', $id)->get();
+        $tasks = Task::where('project_id', $id)->latest()->get();
         return TaskResource::collection($tasks);
     }
 
@@ -33,7 +34,7 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function delete($taskId)
+    public function delete($proj, $taskId)
     {
         $task = Task::whereId($taskId)->first();
         try {
@@ -71,7 +72,7 @@ class TaskController extends Controller
     public function start($proj, $taskId)
     {
         $task = Task::whereId($taskId)->first();
-        $now = Carbon::now();
+        $now = Carbon::now(new DateTimeZone('Europe/Moscow'));
         try {
             DB::beginTransaction();
             $task->update([
@@ -88,7 +89,7 @@ class TaskController extends Controller
     public function pause($proj, $taskId)
     {
         $task = Task::whereId($taskId)->first();
-        $now = Carbon::now();
+        $now = Carbon::now(new DateTimeZone('Europe/Moscow'));
         try {
             DB::beginTransaction();
             $task->update([
@@ -105,7 +106,7 @@ class TaskController extends Controller
     public function stop($proj, $taskId)
     {
         $task = Task::whereId($taskId)->first();
-        $now = Carbon::now();
+        $now = Carbon::now(new DateTimeZone('Europe/Moscow'));
         try {
             DB::beginTransaction();
             $task->update([

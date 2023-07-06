@@ -86,23 +86,6 @@ class TaskController extends Controller
         return response()->json(['message'=> 'Task begin at ' . $now]);
     }
 
-    public function pause($proj, $taskId)
-    {
-        $task = Task::whereId($taskId)->first();
-        $now = Carbon::now(new DateTimeZone('Europe/Moscow'));
-        try {
-            DB::beginTransaction();
-            $task->update([
-                'pause_time' => $now
-            ]);
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            return response()->json(['e'=>$exception->getMessage()]);
-        }
-        return response()->json(['message'=> 'Task paused at ' . $now]);
-    }
-
     public function stop($proj, $taskId)
     {
         $task = Task::whereId($taskId)->first();
